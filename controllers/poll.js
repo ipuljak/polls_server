@@ -3,7 +3,7 @@ const express = require('express')
 
 router.get('/new_poll', (req, res) => {
   res.send({
-    success: 'this call was successful' 
+    success: 'this call was successful'
   });
 });
 

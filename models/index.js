@@ -3,16 +3,9 @@
 const fs = require('fs')
   , path = require('path')
   , Sequelize = require('sequelize')
-  , env = process.env.NODE_ENV || 'development'
-  , config = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
-
-let sequelize;
-
-if (process.env.DATABASE_URL) {
-  sequelize = new Sequelize(process.env.DATABASE_URL, config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+  , lodash = require('lodash')
+  , {dbUsername, dbPassword} = require('../secrets')
+  , sequelize = new Sequelize('polling_app', dbUsername, dbPassword);
 
 let db = {};
 
@@ -26,13 +19,7 @@ fs
     db[model.name] = model;
   });
 
-Object.keys(db).forEach((modelName) => {
-  if ('associate' in db[modelName]) {
-    db[modelName].associate(db);
-  }
-});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+module.exports = lodash.extend({
+  sequelize: sequelize,
+  Sequelize: Sequelize
+}, db);
