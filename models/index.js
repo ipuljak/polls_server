@@ -9,6 +9,7 @@ const fs = require('fs')
 
 let db = {};
 
+// Read in all of the models for the dabatase
 fs
   .readdirSync(__dirname)
   .filter((file) => {

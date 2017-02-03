@@ -1,30 +1,41 @@
 const passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy
-  , db = require('../models');
+  , JwtStrategy = require('passport-jwt').Strategy
+  , ExtractJwt = require('passport-jwt').ExtractJwt
+  , LocalStrategy = require('passport-local')
+  , db = require('../models')
+  , {passportSecret} = require('../secrets');
 
-// Serialize Sessions - Create the cookie
-passport.serializeUser((user, done) => {
-  done(null, user);
+// Create local Strategy
+const localOptions = {usernameField: username};
+
+const localLogin = new LocalStrategy(localOptions, (username, password, done) => {
+  // Verify the username and password, callback done with the user info
+  db.User.findOne({ username: username }, (err, user) => {
+    if (err) return done(err);
+    // If the user was not found
+    if (!user) return done(null, false);
+    // Compare the passwords
+    user.comparePassword(password, (err, isMatch) => {
+      if (err) return done(err);
+      isMatch ? done(null, user) : done(null, false);
+    });
+  });
 });
 
-// Deserialize Sessions - Read the cookie
-passport.deserializeUser((user, done) => {
-  db.User.find({
-    where: { id: user.id }
-  })
-    .then((user) => {
-      done(null, user);
-    })
-    .error((err) => {
-      done(err, null);
-    })
+// Setup options for JWT strategy
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+  secretOrKey: passportSecret
+};
+
+// Create JWT strategy
+const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
+  db.User.findById(payload.sub, (err, user) => {
+    if (err) return done(err, false);
+    user ? done(null, user) : done(null, false);
+  });
 });
 
-// For authentication purposes
-passport.use(new LocalStrategy((username, password, done) => {
-  db.User.find({ where: { username: username } })
-    .then((user) => {
-      let passwd = user ? user.password : '';
-      let isMatch = db.User.validPassword(password, passwd, done, user);
-    })
-}));
+// Tell passport to use this strategy
+passport.use(jwtLogin);
+passport.use(localLogin);
