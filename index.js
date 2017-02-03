@@ -14,10 +14,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(methodOverride('_method'));
-//app.use(express.session({ secret: passportSecret }));
-//app.use(passport.initialize());
-//app.use(passport.session());
-//app.use(app.router);
 
 // Route definition
 const options = require('./controllers/options')
@@ -32,6 +28,13 @@ db
   .sequelize
   .sync()
   .then(() => {
+
+    // // Example to find a user
+    // db.User.findAll({ where: { username: 'ivan' } })
+    //   .then((user) => {
+    //     console.log(user);
+    //   });
+
     // Start the server and listen to the specified port
     app.listen(3010, process.env.IP, () => {
       console.log('Polling Application API server started on port 3010.');

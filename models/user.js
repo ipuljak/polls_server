@@ -7,15 +7,15 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
       validate: {
-        notNull: true,
         notEmpty: true
       }
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        notNull: true,
         notEmpty: true
       }
     }
@@ -34,22 +34,18 @@ module.exports = (sequelize, DataTypes) => {
               return done(null, false);
             }
           });
-        }
+        },
       }
-      // instanceMethods: {
-      //   generateHash: function (password) {
-      //     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-      //   },
-      //   validPassword: function (password) {
-      //     return bcrypt.compareSync(password, this.password);
-      //   }
-      // }
+    }, {
+      dialect: 'mysql'
     });
 
-  User.hook('beforeCreate', (user, fn) => {
-    let salt = bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
+  // Before the user is created, hash the password through the hook
+  User.hook('beforeCreate', (user, {}, fn) => {
+    let salt = bcrypt.genSalt(12, (err, salt) => {
       return salt;
     });
+    // bcrypt to generate the hash
     bcrypt.hash(user.password, salt, null, (err, hash) => {
       if (err) return next(err);
       user.password = hash;
