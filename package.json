@@ -15,11 +15,13 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
     "express": "^4.14.1",
+    "express-session": "^1.15.0",
     "jwt-simple": "^0.5.1",
     "lodash": "^4.17.4",
     "method-override": "^2.3.7",
     "mysql": "^2.13.0",
     "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "sequelize": "^3.30.1",
     "sequelize-cli": "^2.5.1",
     "sqlite3": "^3.1.8"

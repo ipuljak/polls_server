@@ -1,6 +1,7 @@
 const express = require('express')
   , router = express.Router()
-  , models = require('../models');
+  , models = require('../models')
+  , authentication = require('../middleware/authentication');
 
 // POST route to create a new user
 router.post('/create', (req, res) => {
