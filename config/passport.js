@@ -6,20 +6,22 @@ const passport = require('passport')
   , {passportSecret} = require('../secrets');
 
 // Create local Strategy
-const localOptions = {usernameField: 'username'};
+const localOptions = { usernameField: 'username' };
 
 const localLogin = new LocalStrategy(localOptions, (username, password, done) => {
   // Verify the username and password, callback done with the user info
-  db.User.findOne({ username: username }, (err, user) => {
-    if (err) return done(err);
-    // If the user was not found
-    if (!user) return done(null, false);
-    // Compare the passwords
-    user.comparePassword(password, (err, isMatch) => {
-      if (err) return done(err);
-      isMatch ? done(null, user) : done(null, false);
+  db.User.findOne({ where: { username: username } })
+    .then(existingUser => {
+      if (!existingUser) return done(null, false);
+      // Compare the passwords
+      const userPassword = existingUser.dataValues.password;
+      existingUser.comparePasswords(password, userPassword, (err, isMatch) => {
+        if (err) return done(err);
+        isMatch ? done(null, existingUser) : done(null, false);
+      });
+    }).catch(err => {
+      return done(err);
     });
-  });
 });
 
 // Setup options for JWT strategy

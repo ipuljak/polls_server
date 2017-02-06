@@ -23,18 +23,16 @@ module.exports = (sequelize, DataTypes) => {
       classMethods: {
         associate: (models) => {
           User.hasMany(models.Poll)
-        },
-        validPassword: (password, passwd, done, user) => {
-          bcrypt.compare(password, passwd, (err, isMatch) => {
-            if (err) console.log(err);
-            // If the passwords match, provide done callback with the user object
-            if (isMatch) {
-              return done(null, user);
-            } else {
-              return done(null, false);
-            }
+        }
+      },
+      instanceMethods: {
+        comparePasswords: (givenPassword, definedPassword, callback) => {
+          console.log("Candidate", definedPassword);
+          bcrypt.compare(givenPassword, definedPassword, (err, isMatch) => {
+            if (err) return callback(err);
+            callback(null, isMatch);
           });
-        },
+        }
       }
     }, {
       dialect: 'mysql'
