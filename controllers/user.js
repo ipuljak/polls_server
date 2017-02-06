@@ -16,7 +16,7 @@ router.post('/create', (req, res) => {
       res.send({
         success: 'User ' + req.body.username + ' added.'
       });
-    }).catch((error) => {
+    }).catch(error => {
       // Return any errors that popped up
       res.send({
         error: error.message + ': ' + error.errors[0].message

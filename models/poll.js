@@ -2,10 +2,13 @@
 
 module.exports = (sequelize, DataTypes) => {
   let Poll = sequelize.define('Poll', {
-    question: DataTypes.STRING
+    question: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
       classMethods: {
-        associate: (models) => {
+        associate: models => {
           Poll.belongsTo(models.User, {
             onDelete: 'CASCADE',
             foreignKey: {

@@ -1,9 +1,8 @@
 const express = require('express')
   , router = express.Router()
-  , passport = require('passport');
-
-const Authentication = require('../middleware/authentication');
-const passportService = require('../config/passport');
+  , passport = require('passport')
+  , Authentication = require('../middleware/authentication')
+  , passportService = require('../config/passport');
 
 // Set session to false as we are using tokens, not cookies
 const requireAuth = passport.authenticate('jwt', { session: false });
