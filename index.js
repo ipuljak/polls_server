@@ -13,11 +13,13 @@ app.use(bodyParser.json({ type: '*/*' }));
 app.use(methodOverride('_method'));
 
 // Route definition
-const options = require('./controllers/options')
+const auth = require('./controllers/auth')
+  , options = require('./controllers/options')
   , poll = require('./controllers/poll')
   , user = require('./controllers/user');
 
 // Controllers for path routing
+app.use('/api/auth', auth);
 app.use('/api/options', options);
 app.use('/api/polls', poll);
 app.use('/api/users', user);

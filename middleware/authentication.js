@@ -13,8 +13,10 @@ exports.signIn = (req, res, next) => {
   res.send({ token: tokenForUser(req.user) });
 };
 
-// Mideelware that signs a user up and registers them in the database
+// Middleware that signs a user up and registers them in the database
 exports.signUp = (req, res, next) => {
+  const username = req.body.username
+    , password = req.body.password;
   // Check and see if a user with the requested name already exists
   db.User.findOne({ username: username }, (err, existingUser) => {
     if (err) return next(err);

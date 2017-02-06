@@ -6,7 +6,7 @@ const passport = require('passport')
   , {passportSecret} = require('../secrets');
 
 // Create local Strategy
-const localOptions = {usernameField: username};
+const localOptions = {usernameField: 'username'};
 
 const localLogin = new LocalStrategy(localOptions, (username, password, done) => {
   // Verify the username and password, callback done with the user info
