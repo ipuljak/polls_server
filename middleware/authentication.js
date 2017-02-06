@@ -18,23 +18,27 @@ exports.signUp = (req, res, next) => {
   const username = req.body.username
     , password = req.body.password;
   // Check and see if a user with the requested name already exists
-  db.User.findOne({ username: username }, (err, existingUser) => {
-    if (err) return next(err);
-    // If a user with the username does exist, return an error
-    if (existingUser) {
-      return res.status(422).send({ error: 'Username is in use.' });
-    }
-    // If a user with username does not exist, create and save the user
-    const user = {
-      username: username,
-      password: password
-    };
-    db.User.create(user)
-      .then(() => {
-        res.json( {token: tokenForUser(user) });
-      })
-      .catch((error) => {
-        return next(error);
-      });
-  });
+  db.User.findOne({ where: { username: username } })
+    .then(existingUser => {
+      // If a user with the username does exist, return an error to the user
+      if (existingUser) {
+        return res.status(422).send({ error: 'Username is in use.' });
+      }
+      // If a user with username does not exist, create and save the user
+      const user = {
+        username: username,
+        password: password
+      };
+
+      db.User.create(user)
+        .then(() => {
+          res.json({ token: tokenForUser(user) });
+        })
+        .catch(error => {
+          return next(error);
+        });
+    })
+    .catch(error => {
+      return next(error);
+    });
 };

@@ -9,7 +9,7 @@ const passportService = require('../config/passport');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
 
-router.get('/', requireAuth, function (req, res) {
+router.get('/secret', requireAuth, function (req, res) {
   res.send({ message: 'Super secret code is ABC123' });
 });
 
@@ -17,8 +17,8 @@ router.get('/test', function (req, res) {
   res.send("Hello!");
 });
 
-router.post('/signin', requireSignin, Authentication.signIn);
+router.post('/login', requireSignin, Authentication.signIn);
 
-router.post('/signup', Authentication.signUp);
+router.post('/register', Authentication.signUp);
 
 module.exports = router;
