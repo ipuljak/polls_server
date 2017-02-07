@@ -2,6 +2,12 @@
 
 const bcrypt = require('bcrypt-nodejs');
 
+/**
+ *  USER table model
+ *    id (primary key): The id of the user
+ *    username: The user's username
+ *    password: The user's hashed password
+ */
 module.exports = (sequelize, DataTypes) => {
   let User = sequelize.define('User', {
     username: {
@@ -21,20 +27,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
       classMethods: {
-        associate: (models) => {
-          User.hasMany(models.Poll)
-        }
-      },
-      instanceMethods: {
         comparePasswords: (givenPassword, definedPassword, callback) => {
           bcrypt.compare(givenPassword, definedPassword, (err, isMatch) => {
             if (err) return callback(err);
             callback(null, isMatch);
           });
+        },
+        associate: models => {
+          User.hasMany(models.Poll);
         }
       }
-    }, {
-      dialect: 'mysql'
     });
 
   // Before the user is created, hash the password through the hook
