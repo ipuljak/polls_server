@@ -20,6 +20,18 @@ router.post('/create', (req, res) => {
   });
 });
 
+// GET route to obtain a list of polls and their id's
+router.get('/fetch_all', (req, res) => {
+  db.Poll.findAll()
+    .then(result => {
+      res.send(result.reverse());
+  }).catch(error => {
+    res.send({
+      error: error.message
+    });
+  });
+});
+
 // GET route to read a poll and it's options
 router.get('/:poll_id/read', (req, res) => {
   db.Poll.find({

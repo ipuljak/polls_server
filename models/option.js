@@ -5,6 +5,7 @@
  *    id (primary key): The id of the option
  *    option: The full description of a poll's option
  *    votes: The number of votes an option has
+ *    color: A randomized RGB color to use to display on the client side
  *    PollId (foreign key): The poll id that this option is associated with
  */
 module.exports = (sequelize, DataTypes) => {
@@ -17,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0
+    },
+    color: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
       classMethods: {
