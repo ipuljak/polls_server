@@ -9,9 +9,10 @@ router.post('/create', (req, res) => {
   db.Poll.create({
     question: req.body.question,
     UserId: req.body.UserId
-  }).then(() => {
+  }).then(response => {
     res.send({
-      success: 'Poll created.'
+      success: 'Poll created.',
+      id: response.dataValues.id
     });
   }).catch(error => {
     res.send({
