@@ -27,14 +27,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
       classMethods: {
+        associate: models => {
+          User.hasMany(models.Poll);
+        }
+      },
+      instanceMethods: {
         comparePasswords: (givenPassword, definedPassword, callback) => {
           bcrypt.compare(givenPassword, definedPassword, (err, isMatch) => {
             if (err) return callback(err);
             callback(null, isMatch);
           });
-        },
-        associate: models => {
-          User.hasMany(models.Poll);
         }
       }
     });

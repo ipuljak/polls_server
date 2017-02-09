@@ -3,14 +3,17 @@ const jwt = require('jwt-simple')
   , {passportSecret} = require('../secrets');
 
 // Encode a token for the user
-const tokenForUser = (user) => {
+const tokenForUser = user => {
   const timestamp = new Date().getTime();
   return jwt.encode({ sub: user.id, iat: timestamp }, passportSecret);
 };
 
-// Middleware that sends the user their token to sign them in
+// Middleware that sends the user their token and user id to sign them in
 exports.signIn = (req, res, next) => {
-  res.send({ token: tokenForUser(req.user) });
+  res.send({ 
+    token: tokenForUser(req.user),
+    UserId: req.user.id
+  });
 };
 
 // Middleware that signs a user up and registers them in the database
@@ -31,8 +34,11 @@ exports.signUp = (req, res, next) => {
       };
 
       db.User.create(user)
-        .then(() => {
-          res.json({ token: tokenForUser(user) });
+        .then(created => {
+          res.send({ 
+            token: tokenForUser(user),
+            UserId: created.dataValues.id
+          });
         })
         .catch(error => {
           return next(error);
