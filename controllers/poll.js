@@ -4,7 +4,13 @@ const express = require('express')
   , router = express.Router()
   , db = require('../models');
 
-// POST route to create a new poll
+/**
+ *  POST route /create
+ *    Creates a poll
+ *    Requirements
+ *      body.question -> The poll's question
+ *      body.UserId -> The id of the user to associate the poll with
+ */
 router.post('/create', (req, res) => {
   db.Poll.create({
     question: req.body.question,
@@ -21,19 +27,27 @@ router.post('/create', (req, res) => {
   });
 });
 
-// GET route to obtain a list of polls and their id's
+/**
+ *  GET route /fetch_all
+ *    Obtains a list of polls and their id's
+ */
 router.get('/fetch_all', (req, res) => {
   db.Poll.findAll()
     .then(result => {
       res.send(result.reverse());
-  }).catch(error => {
-    res.send({
-      error: error.message
+    }).catch(error => {
+      res.send({
+        error: error.message
+      });
     });
-  });
 });
 
-// GET route to read a poll and it's options
+/**
+ *  GET route /:poll_id/read
+ *    Read a poll and it's options
+ *    Requirements
+ *      params.poll_id -> The id of the poll
+ */
 router.get('/:poll_id/read', (req, res) => {
   db.Poll.find({
     where: {
@@ -54,15 +68,20 @@ router.get('/:poll_id/read', (req, res) => {
   });
 });
 
-// DELETE route to delete a poll
+/**
+ *  DELETE route /:poll_id/delete
+ *    Deletes a poll
+ *    Requirements
+ *      params.poll_id -> The id of the poll
+ */
 router.post('/:poll_id/delete', (req, res) => {
   db.Poll.destroy({
     where: {
       id: req.params.poll_id
     }
   }).then(() => {
-    res.send({ 
-      success: 'Poll with id ' + req.params.user_id + ' was deleted.' 
+    res.send({
+      success: 'Poll with id ' + req.params.user_id + ' was deleted.'
     });
   }).catch(error => {
     res.send({

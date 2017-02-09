@@ -13,10 +13,22 @@ router.get('/secret', requireAuth, (req, res) => {
   res.send({ message: 'Super secret code is ABC123' });
 });
 
-// POST route to log the user in
+/**
+ *  POST route /login
+ *    Logs the user in
+ *    Requirements
+ *      body.username -> The username of the account you wish to authenticate
+ *      body.password -> The password of the account you wish to authenticate 
+ */
 router.post('/login', requireSignin, Authentication.signIn);
 
-// POST route to create a new user
+/**
+ *  POST route /register
+ *    Creates a user
+ *    Requirements
+ *      body.username -> The username of the new account you wish to register
+ *      body.password -> The password of the new account you wish to reigster 
+ */
 router.post('/register', Authentication.signUp);
 
 module.exports = router;

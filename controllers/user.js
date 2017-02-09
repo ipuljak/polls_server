@@ -6,7 +6,7 @@ const express = require('express')
   , authentication = require('../middleware/authentication');
 
 // POST route to create a new user
-// Obsolete with tokens -> Use /api/auth/register instead
+// DEPRECATED -> Obsolete with tokens (Use /api/auth/register instead)
 router.post('/create', (req, res) => {
   // Create the user
   db.User.create({
@@ -25,15 +25,20 @@ router.post('/create', (req, res) => {
   });
 });
 
-// DELETE route to delete a user
+/**
+ *  DELETE route /:user_id/delete
+ *    Deletes a user
+ *    Requirements
+ *      params.user_id -> The id of the user
+ */
 router.delete('/:user_id/delete', (req, res) => {
   db.User.destroy({
     where: {
       id: req.params.user_id
     }
   }).then(() => {
-    res.send({ 
-      success: 'User with id ' + req.params.user_id + ' was deleted.' 
+    res.send({
+      success: 'User with id ' + req.params.user_id + ' was deleted.'
     });
   }).catch(error => {
     res.send({

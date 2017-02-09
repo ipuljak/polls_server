@@ -10,7 +10,7 @@ const tokenForUser = user => {
 
 // Middleware that sends the user their token and user id to sign them in
 exports.signIn = (req, res, next) => {
-  res.send({ 
+  res.send({
     token: tokenForUser(req.user),
     UserId: req.user.id
   });
@@ -35,7 +35,7 @@ exports.signUp = (req, res, next) => {
 
       db.User.create(user)
         .then(created => {
-          res.send({ 
+          res.send({
             token: tokenForUser(user),
             UserId: created.dataValues.id
           });
