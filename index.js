@@ -34,6 +34,6 @@ db
       console.log('Polling Application API server started on port 3010.');
     });
   })
-  .catch((err) => {
+  .catch(err => {
     if (err) throw err[0];
   });
