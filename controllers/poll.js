@@ -76,7 +76,7 @@ router.get('/:poll_id/read', (req, res) => {
 });
 
 /**
- *  DELETE route /:poll_id/delete
+ *  POST route /:poll_id/delete
  *    Deletes a poll
  *    -> http://localhost:3010/api/polls/:poll_id/delete
  *    Requirements

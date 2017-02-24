@@ -18,6 +18,7 @@ router.get('/secret', requireAuth, (req, res) => {
 /**
  *  POST route /login
  *    Logs the user in
+ *    -> http://localhost:3010/api/auth/login
  *    Requirements
  *      body.username -> The username of the account you wish to authenticate
  *      body.password -> The password of the account you wish to authenticate
@@ -28,6 +29,7 @@ router.post('/login', requireSignin, Authentication.signIn);
 /**
  *  POST route /register
  *    Creates a user
+ *    -> http://localhost:3010/api/auth/register
  *    Requirements
  *      body.username -> The username of the new account you wish to register
  *      body.password -> The password of the new account you wish to reigster

@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt-nodejs');
  *  USER table model
  *    id -> PRIMARY KEY INTEGER: The id of the user
  *    username -> STRING: The user's username
- *    password -> STRING: The user's hashed password
+ *    password -> STRING: The user's encrypted password
  */
 module.exports = (sequelize, DataTypes) => {
   let User = sequelize.define('User', {

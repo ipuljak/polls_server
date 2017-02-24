@@ -31,7 +31,7 @@ router.post('/create', (req, res) => {
  *    -> http://localhost:3010/api/users/:user_id/delete
  *    Requirements
  *      params.user_id -> The id of the user
- *    -> Returns a success string if deleted
+ *    Returns a success string if deleted
  */
 router.delete('/:user_id/delete', (req, res) => {
   db.User.destroy({
