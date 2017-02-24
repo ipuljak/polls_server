@@ -1,4 +1,4 @@
-// Root URL: http://localhost:3010:/api/users'
+// Root URL: http://localhost:3010/api/users
 
 const express = require('express')
   , router = express.Router()
@@ -28,8 +28,10 @@ router.post('/create', (req, res) => {
 /**
  *  DELETE route /:user_id/delete
  *    Deletes a user
+ *    -> http://localhost:3010/api/users/:user_id/delete
  *    Requirements
  *      params.user_id -> The id of the user
+ *    -> Returns a success string if deleted
  */
 router.delete('/:user_id/delete', (req, res) => {
   db.User.destroy({

@@ -1,4 +1,4 @@
-// Root URL: http://localhost:3010:/api/polls'
+// Root URL: http://localhost:3010/api/polls
 
 const express = require('express')
   , router = express.Router()
@@ -7,9 +7,11 @@ const express = require('express')
 /**
  *  POST route /create
  *    Creates a poll
+ *    -> http://localhost:3010/api/polls/create
  *    Requirements
  *      body.question -> The poll's question
  *      body.UserId -> The id of the user to associate the poll with
+ *    Returns a success string if created
  */
 router.post('/create', (req, res) => {
   db.Poll.create({
@@ -30,6 +32,8 @@ router.post('/create', (req, res) => {
 /**
  *  GET route /fetch_all
  *    Obtains a list of polls and their id's
+ *    -> http://localhost:3010/api/polls/fetch_all
+ *    Sends the list of polls in inverse chronological order
  */
 router.get('/fetch_all', (req, res) => {
   db.Poll.findAll()
@@ -45,8 +49,11 @@ router.get('/fetch_all', (req, res) => {
 /**
  *  GET route /:poll_id/read
  *    Read a poll and it's options
+ *    -> http://localhost:3010/api/polls/:poll_id/read
  *    Requirements
  *      params.poll_id -> The id of the poll
+ *    Send a poll's information along with who created 
+ *    it, date created, question, and it's options
  */
 router.get('/:poll_id/read', (req, res) => {
   db.Poll.find({
@@ -71,8 +78,10 @@ router.get('/:poll_id/read', (req, res) => {
 /**
  *  DELETE route /:poll_id/delete
  *    Deletes a poll
+ *    -> http://localhost:3010/api/polls/:poll_id/delete
  *    Requirements
  *      params.poll_id -> The id of the poll
+ *    Returns a sucess string if deleted
  */
 router.post('/:poll_id/delete', (req, res) => {
   db.Poll.destroy({

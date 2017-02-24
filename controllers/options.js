@@ -1,4 +1,4 @@
-// Root URL: http://localhost:3010:/api/options'
+// Root URL: http://localhost:3010/api/options
 
 const express = require('express')
   , router = express.Router()
@@ -21,9 +21,11 @@ const getRandomColor = () => {
 /**
  *  POST route /create
  *    Creates a new poll option
+ *    -> http://localhost:3010/api/options/create
  *    Requirements
  *      body.option -> The question string of the poll option
- *      body.PollId -> The id of the poll this option is associated with 
+ *      body.PollId -> The id of the poll this option is associated with
+ *    Returns a success string if created
  */
 router.post('/create', (req, res) => {
   db.Option.create({
@@ -44,8 +46,10 @@ router.post('/create', (req, res) => {
 /**
  *  GET route /:option_id/vote
  *    Increment's an option's votes by one
+ *    -> http://localhost:3010/api/options/:option_id/vote
  *    Requirements
  *      params.option_id -> The id of the option to be incremented
+ *    Returns a success string if voted
  */
 router.get('/:option_id/vote', (req, res) => {
   db.Option.findOne({
@@ -67,8 +71,10 @@ router.get('/:option_id/vote', (req, res) => {
 /**
  *  DELETE route /:option_id/delete
  *    Deletes an option
+ *    -> http://localhost:3010/api/options/:option_id/delete
  *    Requirements
  *      params.option_id -> The id of the option to be deleted
+ *    Returns a success string if deleted
  */
 router.post('/:option_id/delete', (req, res) => {
   db.Option.destroy({

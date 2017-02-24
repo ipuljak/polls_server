@@ -2,9 +2,9 @@
 
 /**
  *  POLL table model
- *    id (primary key): The id of the poll
- *    question: The full description of a poll's question
- *    UserId (foreign key): The user id that that created this poll
+ *    id -> PRIMARY KEY INTEGER: The id of the poll
+ *    question -> STRING: The full description of a poll's question
+ *    UserId -> FOREIGN KEY USERID: The user id that that created this poll
  */
 module.exports = (sequelize, DataTypes) => {
   let Poll = sequelize.define('Poll', {
