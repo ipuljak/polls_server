@@ -3,7 +3,9 @@
 ## Table of Contents  
 * **[About](#about)**  
   * [Installation](#installation)  
-  * [Live Deployment](#live-deployment)  
+  * [Live Deployment](#live-deployment)
+    * [Database Installation](#database-installation)
+    * [Project Installation](#project-installation)
   * [Development Features](#development-features)  
 * **[Project Code](#project-code)**  
   * [File Structure](#file-structure)
@@ -26,6 +28,10 @@ This polling application is a full stack project I made which aims to allow auth
 This repository contains the back-end code for the application, including all database models, route controllers, middleware, and more. The starting point for the URI is at http://localhost:3010/ if running locally.
 
 ### Installation
+#### Database Installation
+Before you run the database, you will first need to create it. This application uses MySQL, and requires that a database named "polling_app" be created. You will need to create a user that can run SELECT, INSERT, and DELETE commands to the database tables. Finally, to run the database, you will need to create a secrets.js file in the application index folder that exports your created username and password.
+
+#### Project Installation
 To install, run:
 
 `npm install`
